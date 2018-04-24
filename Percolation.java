@@ -1,10 +1,10 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
-   private boolean[][] sites;
-   private int gridDimension;
-   private int gridTotal;
-   private int openSiteCount;
+   public boolean[][] sites;
+   public int gridDimension;
+   public int gridTotal;
+   public int openSiteCount;
    WeightedQuickUnionUF dataStructureUF;
    
    // create n-by-n grid, with all sites blocked
@@ -33,8 +33,8 @@ public class Percolation {
                    dataStructureUF.union(flatIndex, flatNeighbourIndex);
                }
            }
-        if (row == 1) dataStructureUF.union(flatIndex, 0); // if the site is on the first row, connect it to the virtual site at index 0
-        if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal + 1); // if the site is on the last row, connect it to the virtual site at the end 
+           if (row == 1) dataStructureUF.union(flatIndex, 0); // if the site is on the first row, connect it to the virtual site at index 0
+           if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal + 1); // if the site is on the last row, connect it to the virtual site at the end 
        }
    }
    
@@ -62,7 +62,7 @@ public class Percolation {
    
    // convert 2 dimensional coordinates to array index
    private int xyTo1D(int x, int y){
-       int rowModifier = x * gridDimension;
+       int rowModifier = (x - 1) * gridDimension;
        return rowModifier + y;
    }
    
@@ -75,15 +75,5 @@ public class Percolation {
   private void throwError(int row, int col) {
       throw new IllegalArgumentException("coordinates " + row + ", " + col + " are not between 0 and " + (gridDimension - 1)); 
   }
-  
-  public static void main(String[] args) {
-      Percolation test = new Percolation(5);
-      test.open(1, 1);
-      test.open(2, 1);
-      test.open(3, 1);
-      test.open(4, 1);
-      boolean testFull = test.isFull(4, 1);
-      System.out.println(testFull);
-  }
-  
+
 }
