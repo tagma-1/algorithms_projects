@@ -3,15 +3,17 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {
    private boolean[][] sites;
    private int gridDimension;
+   private int gridTotal;
    private int openSiteCount;
    WeightedQuickUnionUF dataStructureUF;
    
    // create n-by-n grid, with all sites blocked
    public Percolation(int n) {
        gridDimension = n;
+       gridTotal = n * n;
        openSiteCount = 0;
        sites = new boolean[gridDimension][gridDimension];
-       dataStructureUF = new WeightedQuickUnionUF(gridDimension * gridDimension);
+       dataStructureUF = new WeightedQuickUnionUF(gridTotal + 2); // grid squared plus two virtual sites
    }
    
    // open site (row, col) if it is not open already
@@ -31,6 +33,8 @@ public class Percolation {
                    dataStructureUF.union(flatIndex, flatNeighbourIndex);
                }
            }
+        if (row == 1) dataStructureUF.union(flatIndex, 0); // if the site is on the first row, connect it to the virtual site at index 0
+        if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal); // if the site is on the last row, connect it to the virtual site at the end 
        }
    }
    
@@ -58,9 +62,8 @@ public class Percolation {
    
    // convert 2 dimensional coordinates to array index
    private int xyTo1D(int x, int y){
-       int rowModifier = (x - 1) * gridDimension;
-       int columnModifier = y - 1;
-       return rowModifier + columnModifier;
+       int rowModifier = x * gridDimension;
+       return rowModifier + y;
    }
    
   // check if coordinates are invalid
