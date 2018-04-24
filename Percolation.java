@@ -20,45 +20,45 @@ public class Percolation {
    public void open(int row, int col) {
        if (invalid(row, col)) throwError(row, col);
        int flatIndex = xyTo1D(row, col);
-       boolean siteOpen = isOpen(row - 1, col - 1);
+       boolean siteOpen = isOpen(row, col);
        int[][] indexModifiers = { {0, -1}, {0, 1}, {-1, 0}, {1, 0} }; // an array of index modifiers to get each neighbouring site (left, right, above, below)
        if (!siteOpen) {
            sites[row - 1][col - 1] = true;
            openSiteCount++;
-           for(int i = 0; i < 4; i++){
+           for(int i = 0; i < 4; i++){ // connect the open site to any neighbouring open sites in the UF data structure
                int neighbourRow = row + indexModifiers[i][0];
                int neighbourCol = col + indexModifiers[i][1];
-               if ( !invalid(neighbourRow, neighbourCol) && isOpen(neighbourRow - 1, neighbourCol - 1) ){
+               if ( !invalid(neighbourRow, neighbourCol) && isOpen(neighbourRow, neighbourCol) ){
                    int flatNeighbourIndex = xyTo1D(neighbourRow, neighbourCol);
                    dataStructureUF.union(flatIndex, flatNeighbourIndex);
                }
            }
         if (row == 1) dataStructureUF.union(flatIndex, 0); // if the site is on the first row, connect it to the virtual site at index 0
-        if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal); // if the site is on the last row, connect it to the virtual site at the end 
+        if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal + 1); // if the site is on the last row, connect it to the virtual site at the end 
        }
    }
    
    // is site (row, col) open?
    public boolean isOpen(int row, int col){
-       return sites[row][col];
+       return sites[row - 1][col - 1];
    }
    
    // is site (row, col) full?
-   public int isFull(int row, int col) {
+   public boolean isFull(int row, int col) {
        if (invalid(row, col)) throwError(row, col);
        int siteIndex = xyTo1D(row, col);
-       int parentIdentifier = dataStructureUF.find(siteIndex);
-       return parentIdentifier;
+       return dataStructureUF.connected(siteIndex, 0); // check whether the site is connected to the index 0 virtual site
   }
    
    // number of open sites
    public int numberOfOpenSites(){
        return openSiteCount;
    }
-//   
-//   public boolean percolates(){
-//       
-//   }
+   
+   // check if grid percolates by seeing if virtual sites are connected
+   public boolean percolates(){
+       return dataStructureUF.connected(0, gridTotal + 1);
+   }
    
    // convert 2 dimensional coordinates to array index
    private int xyTo1D(int x, int y){
@@ -82,7 +82,7 @@ public class Percolation {
       test.open(2, 1);
       test.open(3, 1);
       test.open(4, 1);
-      int testFull = test.isFull(4, 1);
+      boolean testFull = test.isFull(4, 1);
       System.out.println(testFull);
   }
   
