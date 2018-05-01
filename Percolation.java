@@ -75,9 +75,5 @@ public class Percolation {
   private void throwError(int row, int col) {
       throw new IllegalArgumentException("coordinates " + row + ", " + col + " are not between 0 and " + (gridDimension - 1)); 
   }
-  
-  public static void main(String[] args){
-      
-  }
-  
+
 }
