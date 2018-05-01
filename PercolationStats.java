@@ -3,23 +3,20 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class PercolationStats {
     
-    StdStats stats;
-    StdRandom random;
     Percolation percolationTrial;
+    public int[] openSitesAtPercolation;
     
    // perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
-        double[] openSitesAtPercolation = new double[trials];
+        openSitesAtPercolation = new int[trials];
         for(int i = 0; i < trials; i++) {
             percolationTrial = new Percolation(n);
-//            while( !percolationTrial.percolates() ) {
-//                double randomRow =
-//                double randomCol =
-//            }
-
-            // randomly open site
-            // check for percolation, break if true
-            // return number of open sites
+            while( !percolationTrial.percolates() ) {
+                int randomRow = StdRandom.uniform(n) + 1;
+                int randomCol = StdRandom.uniform(n) + 1;
+                percolationTrial.open(randomRow, randomCol);
+            }
+            openSitesAtPercolation[i] = percolationTrial.numberOfOpenSites();
         }
     }
        
