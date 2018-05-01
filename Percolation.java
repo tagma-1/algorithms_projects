@@ -34,7 +34,7 @@ public class Percolation {
                }
            }
            if (row == 1) dataStructureUF.union(flatIndex, 0); // if the site is on the first row, connect it to the virtual site at index 0
-           if (row == gridTotal) dataStructureUF.union(flatIndex, gridTotal + 1); // if the site is on the last row, connect it to the virtual site at the end 
+           if (row == gridDimension) dataStructureUF.union(flatIndex, gridTotal + 1); // if the site is on the last row, connect it to the virtual site at the end 
        }
    }
    
@@ -75,5 +75,9 @@ public class Percolation {
   private void throwError(int row, int col) {
       throw new IllegalArgumentException("coordinates " + row + ", " + col + " are not between 0 and " + (gridDimension - 1)); 
   }
-
+  
+  public static void main(String[] args){
+      
+  }
+  
 }
