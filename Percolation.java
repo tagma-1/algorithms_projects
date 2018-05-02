@@ -5,10 +5,11 @@ public class Percolation {
    private int gridDimension;
    private int gridTotal;
    private int openSiteCount;
-   WeightedQuickUnionUF dataStructureUF;
+   private WeightedQuickUnionUF dataStructureUF;
    
    // create n-by-n grid, with all sites blocked
    public Percolation(int n) {
+       if (n < 2) throw new IllegalArgumentException("Minimum grid size is 1.");
        gridDimension = n;
        gridTotal = n * n;
        openSiteCount = 0;
@@ -40,6 +41,7 @@ public class Percolation {
    
    // is site (row, col) open?
    public boolean isOpen(int row, int col){
+       if (invalid(row, col)) throwError(row, col);
        return sites[row - 1][col - 1];
    }
    
