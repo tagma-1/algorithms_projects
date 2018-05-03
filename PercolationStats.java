@@ -6,6 +6,8 @@ public class PercolationStats {
     private Percolation percolationTrial;
     private double[] percolationThresholds;
     private int trialsCount;
+    private double mean;
+    private double stddev;
     
    // perform trials independent experiments on an n-by-n grid
     public PercolationStats(int n, int trials) {
@@ -26,21 +28,23 @@ public class PercolationStats {
        
    // sample mean of percolation threshold
     public double mean() {
-        return StdStats.mean(percolationThresholds);
+        mean = StdStats.mean(percolationThresholds);
+        return mean;
     }
       
    // sample standard deviation of percolation threshold
     public double stddev() {
-        return StdStats.stddev(percolationThresholds);
+        stddev = StdStats.stddev(percolationThresholds);
+        return stddev;
     }
   
    // low  endpoint of 95% confidence interval    
-    public double confidenceLo(double mean, double stddev) {
+    public double confidenceLo() {
         return mean - 1.96 * ( stddev / Math.sqrt(trialsCount) );
     }
        
    // high endpoint of 95% confidence interval
-    public double confidenceHi(double mean, double stddev) {
+    public double confidenceHi() {
         return mean + 1.96 * ( stddev / Math.sqrt(trialsCount) );
     }
    
@@ -53,6 +57,6 @@ public class PercolationStats {
         double stddev = test.stddev();
         System.out.println("mean = " + mean);
         System.out.println("stddev = " + stddev);
-        System.out.println("95% confidence interval = [" + test.confidenceLo(mean, stddev) + ", " + test.confidenceHi(mean, stddev) + "]");
+        System.out.println("95% confidence interval = [" + test.confidenceLo() + ", " + test.confidenceHi() + "]");
     }     
 }
