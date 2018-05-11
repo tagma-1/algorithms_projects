@@ -8,9 +8,11 @@ public class Deque<Item> implements Iterable<Item> {
    private class Node {
        private Item item;
        private Node next;
-       public Node(Item nodeItem, Node nextNode) {
+       private Node previous;
+       public Node(Item nodeItem, Node nextNode, Node previousNode) {
            item = nodeItem;
            next = nextNode;
+           previous = previousNode;
        }
    }
    
@@ -37,7 +39,8 @@ public class Deque<Item> implements Iterable<Item> {
            return addInitial(item);
        } else {
            Node oldFirst = first;
-           newNode = new Node(item, oldFirst);
+           newNode = new Node(item, oldFirst, null);
+           oldFirst.previous = newNode;
            first = newNode;
            n++;
        }
@@ -49,7 +52,7 @@ public class Deque<Item> implements Iterable<Item> {
            return addInitial(item);
        } else {
            Node oldLast = last;
-           newNode = new Node(item, null);
+           newNode = new Node(item, null, oldLast);
            oldLast.next = newNode;
            last = newNode;
            n++;
@@ -58,14 +61,38 @@ public class Deque<Item> implements Iterable<Item> {
        
    // add the first item to the deque
    private void addInitial(Item item) {
-       newNode = new Node(item, null);
+       newNode = new Node(item, null, null);
        first = newNode;
        last = newNode;
        n++;
    }
    
-   public Item removeFirst()                // remove and return the item from the front
-   public Item removeLast()                 // remove and return the item from the end
+   // remove and return the item from the front
+   public Item removeFirst() {
+       firstItem = first.item;
+       if (n == 1) {
+           first = null;
+           last = null;
+       } else {
+           first = first.next;
+           first.previous = null;
+       }
+       n--;
+       return firstItem;
+   }
+   
+   // remove and return the item from the end
+   public Item removeLast() {
+       lastItem = last.item;
+       if (n == 1) {
+           first = null;
+           last = null;
+       } else {
+           last = last.previous;
+           last.next = null;
+       }
+   }
+   
    public Iterator<Item> iterator()         // return an iterator over items in order from front to end
    public static void main(String[] args)   // unit testing (optional)
 }
