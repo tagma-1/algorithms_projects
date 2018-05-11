@@ -1,5 +1,22 @@
 public class Deque<Item> implements Iterable<Item> {
-   public Deque()                           // construct an empty deque
+   
+   private Item first; 
+   private Item last;
+   private int n; // size of the deque
+   
+   // sub class to create nodes for a linked list
+   private class Node {
+       private Item item;
+       private Item next;
+   }
+   
+   // construct an empty deque
+   public Deque() {
+       first = null;
+       last = null;
+       n = 0;
+   }
+       
    public boolean isEmpty()                 // is the deque empty?
    public int size()                        // return the number of items on the deque
    public void addFirst(Item item)          // add the item to the front
