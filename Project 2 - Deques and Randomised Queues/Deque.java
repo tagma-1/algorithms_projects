@@ -16,9 +16,17 @@ public class Deque<Item> implements Iterable<Item> {
        last = null;
        n = 0;
    }
-       
-   public boolean isEmpty()                 // is the deque empty?
-   public int size()                        // return the number of items on the deque
+   
+   // is the deque empty?
+   public boolean isEmpty() {
+       return n == 0;
+   }
+   
+   // return the number of items on the deque
+   public int size() {
+       return n;
+   }
+   
    public void addFirst(Item item)          // add the item to the front
    public void addLast(Item item)           // add the item to the end
    public Item removeFirst()                // remove and return the item from the front
