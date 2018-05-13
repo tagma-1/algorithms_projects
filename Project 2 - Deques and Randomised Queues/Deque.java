@@ -35,8 +35,8 @@ public class Deque<Item> implements Iterable<Item> {
    
    // add the item to the front
    public void addFirst(Item item) {
-       if (n == 0) {
-           return addInitial(item);
+       if (isEmpty()) {
+           addInitial(item);
        } else {
            Node oldFirst = first;
            newNode = new Node(item, oldFirst, null);
@@ -48,8 +48,8 @@ public class Deque<Item> implements Iterable<Item> {
    
    // add the item to the end
    public void addLast(Item item) {
-       if (n == 0) {
-           return addInitial(item);
+       if (isEmpty()) {
+           addInitial(item);
        } else {
            Node oldLast = last;
            newNode = new Node(item, null, oldLast);
@@ -91,8 +91,14 @@ public class Deque<Item> implements Iterable<Item> {
            last = last.previous;
            last.next = null;
        }
+       n--;
+       return lastItem;
    }
    
-   public Iterator<Item> iterator()         // return an iterator over items in order from front to end
+   // return an iterator over items in order from front to end
+   public Iterator<Item> iterator() {
+   
+   }
+   
    public static void main(String[] args)   // unit testing (optional)
 }
