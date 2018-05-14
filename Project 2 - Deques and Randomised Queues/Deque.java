@@ -69,7 +69,7 @@ public class Deque<Item> implements Iterable<Item> {
    
    // remove and return the item from the front
    public Item removeFirst() {
-       firstItem = first.item;
+       Item firstItem = first.item;
        if (n == 1) {
            first = null;
            last = null;
@@ -83,7 +83,7 @@ public class Deque<Item> implements Iterable<Item> {
    
    // remove and return the item from the end
    public Item removeLast() {
-       lastItem = last.item;
+       Item lastItem = last.item;
        if (n == 1) {
            first = null;
            last = null;
@@ -97,8 +97,23 @@ public class Deque<Item> implements Iterable<Item> {
    
    // return an iterator over items in order from front to end
    public Iterator<Item> iterator() {
-   
+       return new DequeIterator();
    }
    
-   public static void main(String[] args)   // unit testing (optional)
+   private class DequeIterator implements Iterator<Item> {
+       private Node current = first;
+       
+       public boolean hasNext() { return current != null; }
+     
+       public void remove() { throw new UnsupportedOperationException(); }
+       
+       public Item next() {
+           if (!hasNext()) { throw NoSuchElementException(); };
+           Item item = current.item;
+           current = current.next;
+           return item;
+       }
+   }
+   
+   public static void main(String[] args)   // unit testing
 }
