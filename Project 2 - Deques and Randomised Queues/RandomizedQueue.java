@@ -75,14 +75,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         a = newArray;
     }
     
-    public int arrayLength() { return a.length; }
-    
-    public void printArray() { 
-        for(int i = 0; i < a.length; i++){
-            System.out.println(a[i]);
-        }
-    }
-    
     // return an independent iterator over items in random order
     public Iterator<Item> iterator() {
         return new RandomizedQueueIterator();
