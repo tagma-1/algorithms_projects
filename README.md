@@ -51,8 +51,8 @@ A re-sizing array was chosen for the randomised queue as the array's indices wer
 
 Once the tail has reached the end of the array, the array is re-sized to *2N* and compressed (that is, null values from random removals are not copied across to the new array). If *N* is less than a quarter of the array's length, the array is re-sized to *0.5N* and compressed. These operations provide constant amortised time performance. 
 
-The iterator works by creating a compressed copy of the array (linear time), shuffling it (this functionality is provided as course material), and iterating through this copy as next() is called. 
+The iterator works by creating a compressed copy of the array (linear time), shuffling it (this functionality is provided as course material), and iterating through this copy as *next()* is called. 
 
 #### Permutation
 
-The last part of the assignment was to write  a client program (Permutation) that takes an integer *k* as a command-line argument; reads in a sequence of strings from standard input using StdIn.readString(); and prints exactly k of them, uniformly at random. This was implemented using the randomised queue described above by using the iterator *k* times. 
+The last part of the assignment was to write  a client program (Permutation) that takes an integer *k* as a command-line argument; reads in a sequence of strings from standard input using *StdIn.readString()* (provided as course material); and prints exactly k of them, uniformly at random. This was implemented using the randomised queue described above by using the iterator *k* times. 
