@@ -51,7 +51,7 @@ public class Point implements Comparable<Point>{
         double run = that.x - this.x;
         if (rise == 0 && run == 0) {           // equal points
             return Double.NEGATIVE_INFINITY;   
-        } else if (run == 0) {                // vertical line     
+        } else if (run == 0) {                 // vertical line     
             return Double.POSITIVE_INFINITY;
         } else {
             return rise / run;
@@ -70,8 +70,17 @@ public class Point implements Comparable<Point>{
      *         point; and a positive integer if this point is greater than the
      *         argument point
      */
-//    public int compareTo(Point that) {
-//    }
+    public int compareTo(Point that) {
+        if (this.y == that.y) {
+            if (this.x == that.x) return 0;
+            if (this.x < that.x) return -1;
+            return 1;
+        } else if (this.y < that.y) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
 
     /**
      * Compares two points by the slope they make with this point.
