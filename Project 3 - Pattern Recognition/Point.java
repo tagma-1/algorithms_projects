@@ -1,7 +1,7 @@
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
 
-public class Point implements Comparable<Point> {
+public class Point implements Comparable<Point>{
 
     private final int x;     // x-coordinate of this point
     private final int y;     // y-coordinate of this point
@@ -45,8 +45,17 @@ public class Point implements Comparable<Point> {
      * @param  that the other point
      * @return the slope between this point and the specified point
      */
+    
     public double slopeTo(Point that) {
-
+        double rise = that.y - this.y;
+        double run = that.x - this.x;
+        if (rise == 0 && run == 0) {           // equal points
+            return Double.NEGATIVE_INFINITY;   
+        } else if (run == 0) {                // vertical line     
+            return Double.POSITIVE_INFINITY;
+        } else {
+            return rise / run;
+        }
     }
 
     /**
@@ -61,8 +70,8 @@ public class Point implements Comparable<Point> {
      *         point; and a positive integer if this point is greater than the
      *         argument point
      */
-    public int compareTo(Point that) {
-    }
+//    public int compareTo(Point that) {
+//    }
 
     /**
      * Compares two points by the slope they make with this point.
@@ -70,8 +79,8 @@ public class Point implements Comparable<Point> {
      *
      * @return the Comparator that defines this ordering on points
      */
-    public Comparator<Point> slopeOrder() {
-    }
+//    public Comparator<Point> slopeOrder() {
+//    }
 
 
     /**
@@ -88,6 +97,6 @@ public class Point implements Comparable<Point> {
     /**
      * Unit tests the Point data type.
      */
-    public static void main(String[] args) {
-    }
+//    public static void main(String[] args) {
+//    }
 }
