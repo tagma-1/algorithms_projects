@@ -1,5 +1,8 @@
 import java.util.Comparator;
 import edu.princeton.cs.algs4.StdDraw;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Collections;
 
 public class Point implements Comparable<Point>{
 
@@ -49,13 +52,10 @@ public class Point implements Comparable<Point>{
     public double slopeTo(Point that) {
         double rise = that.y - this.y;
         double run = that.x - this.x;
-        if (rise == 0 && run == 0) {           // equal points
-            return Double.NEGATIVE_INFINITY;   
-        } else if (run == 0) {                 // vertical line     
-            return Double.POSITIVE_INFINITY;
-        } else {
-            return rise / run;
-        }
+        if (rise == 0 && run == 0) return Double.NEGATIVE_INFINITY; // equal
+        if (run == 0) return Double.POSITIVE_INFINITY; // vertical line
+        if (rise == 0) return 0.0; // horizontal line 
+        return rise / run;    
     }
 
     /**
@@ -88,9 +88,13 @@ public class Point implements Comparable<Point>{
      *
      * @return the Comparator that defines this ordering on points
      */
-//    public Comparator<Point> slopeOrder() {
-//    }
-
+    public Comparator<Point> slopeOrder() {
+        return new Comparator<Point> () {
+            public int compare(Point a, Point b) {
+                return Double.compare(slopeTo(a), slopeTo(b));
+            }
+        }; 
+    }
 
     /**
      * Returns a string representation of this point.
@@ -106,6 +110,44 @@ public class Point implements Comparable<Point>{
     /**
      * Unit tests the Point data type.
      */
-//    public static void main(String[] args) {
-//    }
+   public static void main(String[] args) {
+       Point a = new Point(1, 1); 
+       Point b = new Point(4, 12); // positive gradient (3.66)
+       Point c = new Point(5, -3); // negative gradient (-1)
+       Point d = new Point(-3, -3); // positive gradient (1)
+       Point e = new Point(1, 1); // equal point (negative infinity)
+       Point f = new Point(1, 5); // vertical line (positive infinity)
+       Point g = new Point(5, 1); // horizontal line (positive 0.0)
+       
+       List<Point> test = new ArrayList<Point>();
+       test.add(a);
+       test.add(b);
+       test.add(c);
+       test.add(d);
+       test.add(e);
+       test.add(f);
+       test.add(g);
+
+       // test comparable
+       Collections.sort(test);
+       System.out.println(test.get(0) == d);
+       System.out.println(test.get(1) == c);
+       System.out.println(test.get(2) == a);
+       System.out.println(test.get(3) == e);
+       System.out.println(test.get(4) == g);
+       System.out.println(test.get(5) == f);
+       System.out.println(test.get(6) == b);
+           
+       // test comparator
+       Collections.sort(test, a.slopeOrder());
+       System.out.println(test.get(0) == a);
+       System.out.println(test.get(1) == e);
+       System.out.println(test.get(2) == c);
+       System.out.println(test.get(3) == g);
+       System.out.println(test.get(4) == d);
+       System.out.println(test.get(5) == b);
+       System.out.println(test.get(6) == f);
+       
+       
+   }
 }
