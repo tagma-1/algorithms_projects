@@ -112,7 +112,7 @@ public class Point implements Comparable<Point>{
      */
    public static void main(String[] args) {
        Point a = new Point(1, 1); 
-       Point b = new Point(4, 12); // positive gradient (3.66)
+       Point b = new Point(4, 12); // positive gradient (~3.66)
        Point c = new Point(5, -3); // negative gradient (-1)
        Point d = new Point(-3, -3); // positive gradient (1)
        Point e = new Point(1, 1); // equal point (negative infinity)
@@ -127,27 +127,37 @@ public class Point implements Comparable<Point>{
        test.add(e);
        test.add(f);
        test.add(g);
+       
+       // test slopeTo() 
+       System.out.println("\nslopeTo() method (gradient) test");
+       System.out.println("a.slopeTo(b) == 11/3: " + (a.slopeTo(b) == 11.0 / 3.0 ));
+       System.out.println("a.slopeTo(c) == -1: " + (a.slopeTo(c) == -1 ));
+       System.out.println("a.slopeTo(d) == 1: " + (a.slopeTo(d) == 1 ));
+       System.out.println("a.slopeTo(e) == negative infinity: " + (a.slopeTo(e) == Double.NEGATIVE_INFINITY));
+       System.out.println("a.slopeTo(f) == positive infinity: " + (a.slopeTo(f) == Double.POSITIVE_INFINITY ));
+       System.out.println("a.slopeTo(g) == 0.0: " + (a.slopeTo(g) == 0.0 ));
 
        // test comparable
        Collections.sort(test);
-       System.out.println(test.get(0) == d);
-       System.out.println(test.get(1) == c);
-       System.out.println(test.get(2) == a);
-       System.out.println(test.get(3) == e);
-       System.out.println(test.get(4) == g);
-       System.out.println(test.get(5) == f);
-       System.out.println(test.get(6) == b);
-           
+       System.out.println("\nComparable sorting position test");
+       System.out.println("first == d: " + (test.get(0) == d));
+       System.out.println("second == c: " + (test.get(1) == c));
+       System.out.println("third == a: " + (test.get(2) == a));
+       System.out.println("fourth == e: " + (test.get(3) == e));
+       System.out.println("fifth == g: " + (test.get(4) == g));
+       System.out.println("sixth == f: " + (test.get(5) == f));
+       System.out.println("seventh == b: " + (test.get(6) == b));
+
        // test comparator
        Collections.sort(test, a.slopeOrder());
-       System.out.println(test.get(0) == a);
-       System.out.println(test.get(1) == e);
-       System.out.println(test.get(2) == c);
-       System.out.println(test.get(3) == g);
-       System.out.println(test.get(4) == d);
-       System.out.println(test.get(5) == b);
-       System.out.println(test.get(6) == f);
-       
+       System.out.println("\nComparator sorting position test");
+       System.out.println("first == a: " + (test.get(0) == a));
+       System.out.println("second == e: " + (test.get(1) == e));
+       System.out.println("third == c: " + (test.get(2) == c));
+       System.out.println("fourth == g: " + (test.get(3) == g));
+       System.out.println("fifth == d: " + (test.get(4) == d));
+       System.out.println("sixth == b: " + (test.get(5) == b));
+       System.out.println("seventh == f: " + (test.get(6) == f));
        
    }
 }
