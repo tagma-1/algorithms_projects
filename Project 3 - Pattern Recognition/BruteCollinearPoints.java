@@ -15,13 +15,16 @@ public class BruteCollinearPoints {
        if (points == null) throw new IllegalArgumentException("Array of points must be provided.");
        int n = points.length;  
        lineSegments = new ArrayList<LineSegment>();
-               
+       
+       for(int i = 0; i < n; i++){
+           if (points[i] == null) throw new IllegalArgumentException("Array cannot contain null points.");
+       }
+             
        // iterate through the array 4 times to find possible combinations (not permutations)
        for (int i = 0; i < n; i++) {
            
            for (int j = i + 1; j < n; j++) {
                if (points[i].slopeTo(points[j]) == Double.NEGATIVE_INFINITY) throw new IllegalArgumentException("Array contains repeated points.");
-               if (points[i] == null || points[j] == null) throw new IllegalArgumentException("Array cannot contain null points.");
                double secondPointSlope = points[i].slopeTo(points[j]);
                
                for (int k = j + 1; k < n; k++) { 

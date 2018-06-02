@@ -22,8 +22,8 @@ public class FastCollinearPoints {
        
        // sort the array by y-coordinates (natural order) then check for repeated points
        Arrays.sort(points, 0, n);
-       for (int i = 0; i < n; i++) {
-           if (i > 0 && points[i] == points[i - 1]) throw new IllegalArgumentException("Array contains repeated points.");
+       for (int i = 0; i < n - 1; i++) {
+           if (points[i].slopeTo(points[i + 1]) == Double.NEGATIVE_INFINITY) throw new IllegalArgumentException("Array contains repeated points.");
        } 
                   
        // initialise an ArrayList 
@@ -41,11 +41,12 @@ public class FastCollinearPoints {
            Arrays.sort(points, i + 1, n, origin.slopeOrder()); 
            int groupSize = 1; 
            for(int j = i + 2; j < n; j++) {
-               if ( origin.slopeTo(points[j]) == origin.slopeTo(points[j - 1]) ) { 
+               double previousPointSlope = origin.slopeTo(points[j - 1]);
+               if ( origin.slopeTo(points[j]) == previousPointSlope ) { 
                    groupSize++;
-                   if (j == n - 1 && groupSize > 2) createLineSegment(points, groupSize, j + 1, origin);
+                   if (j == n - 1 && groupSize > 2 && !subSegment(points, i, previousPointSlope)) createLineSegment(points, groupSize, j + 1, origin);
                } else if (groupSize > 2) { 
-                   createLineSegment(points, groupSize, j, origin);
+                   if (!subSegment(points, i, previousPointSlope)) createLineSegment(points, groupSize, j, origin);
                    groupSize = 1;   
                } else {
                    groupSize = 1;
@@ -54,6 +55,14 @@ public class FastCollinearPoints {
        }
    }
    
+   // check whether a segment is a subsegment
+   private boolean subSegment(Point[] points, int originIndex, double previousPointSlope) {
+       for(int i = 0; i < originIndex; i++) {
+           if (points[i].slopeTo(points[originIndex]) == previousPointSlope) return true;
+       }
+       return false;
+   }
+       
    private void createLineSegment(Point[] points, int groupSize, int endPoint, Point origin) {
        
        // create a sub-array for the segment (including the origin point) and sort according to y-coordinates 
