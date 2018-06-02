@@ -32,7 +32,8 @@ public class FastCollinearPoints {
        /* (1) Iterate through the points, setting each point as the origin (p)and sorting the remainder of the array's
         * points after p according to their slope to p. 
         * (2) These remaining points are then iterated through to find groups of 3 or more with the same slope to p. 
-        * (3) These groups of 3 or more are each combined with p into a segment sub-array which is sorted according to y-coordinates. 
+        * (3) These groups of 3 or more are checked to see whether they form a sub-segment and - if not - each combined 
+        * with p into a segment sub-array which is sorted according to y-coordinates. 
         * (4) The first and last points in this sub-array are then used to make a LineSegment object which is added to LineSegment[].
         */
        
@@ -56,9 +57,9 @@ public class FastCollinearPoints {
    }
    
    // check whether a segment is a subsegment
-   private boolean subSegment(Point[] points, int originIndex, double previousPointSlope) {
+   private boolean subSegment(Point[] points, int originIndex, double segmentGradient) {
        for(int i = 0; i < originIndex; i++) {
-           if (points[i].slopeTo(points[originIndex]) == previousPointSlope) return true;
+           if (points[i].slopeTo(points[originIndex]) == segmentGradient) return true;
        }
        return false;
    }
