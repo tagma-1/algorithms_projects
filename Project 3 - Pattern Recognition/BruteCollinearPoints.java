@@ -20,7 +20,7 @@ public class BruteCollinearPoints {
        }  
                   
        // initialise an array with a length equal to the maximum number of possible line segments 
-       lineSegments = new LineSegment[n / 4];
+       lineSegments = new LineSegment[(n - 1) / 3];
        
        // sort the array by y-coordinates (natural order) then check for repeated points
        Arrays.sort(points, 0, n);
