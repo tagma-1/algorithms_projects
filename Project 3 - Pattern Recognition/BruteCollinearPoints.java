@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.ArrayList;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdOut;
@@ -6,7 +7,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class BruteCollinearPoints {
    
    private int segmentCounter = 0;
-   private LineSegment[] lineSegments;
+   private ArrayList<LineSegment> lineSegments;
    
    // finds all line segments containing 4 points
    public BruteCollinearPoints(Point[] points) {
@@ -19,8 +20,8 @@ public class BruteCollinearPoints {
            if (points[i] == null) throw new IllegalArgumentException("Array at index " + i + " is null.");
        }  
                   
-       // initialise an array with a length equal to the maximum number of possible line segments 
-       lineSegments = new LineSegment[(n - 1) / 3];
+       // initialise an ArrayList
+       lineSegments = new ArrayList<LineSegment>();
        
        // sort the array by y-coordinates (natural order) then check for repeated points
        Arrays.sort(points, 0, n);
@@ -44,7 +45,7 @@ public class BruteCollinearPoints {
                            segmentCounter++;
                            Point minPoint = points[i];
                            Point maxPoint = points[l];
-                           lineSegments[segmentCounter - 1] = new LineSegment(minPoint, maxPoint);
+                           lineSegments.add(new LineSegment(minPoint, maxPoint));
                        }
                    }
                }
@@ -54,7 +55,7 @@ public class BruteCollinearPoints {
     
    public int numberOfSegments() { return segmentCounter; }
    
-   public LineSegment[] segments() { return lineSegments; }
+   public ArrayList<LineSegment> segments() { return lineSegments; }
    
    public static void main(String[] args) {
 
