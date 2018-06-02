@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.In;
@@ -6,7 +7,7 @@ import edu.princeton.cs.algs4.StdOut;
 public class FastCollinearPoints {
    
    private int segmentCounter = 0;
-   private LineSegment[] lineSegments;
+   private ArrayList<LineSegment> lineSegments;
    
    // finds all line segments containing 4 or more points
    public FastCollinearPoints(Point[] points) {
@@ -25,8 +26,8 @@ public class FastCollinearPoints {
            if (i > 0 && points[i] == points[i - 1]) throw new IllegalArgumentException("Array contains repeated points.");
        } 
                   
-       // initialise an array with a length equal to the maximum number of possible line segments 
-       lineSegments = new LineSegment[(n - 1) / 3];
+       // initialise an ArrayList 
+       lineSegments = new ArrayList<LineSegment>();
        
        /* (1) Iterate through the points, setting each point as the origin (p)and sorting the remainder of the array's
         * points after p according to their slope to p. 
@@ -68,13 +69,13 @@ public class FastCollinearPoints {
        // create a new line segment
        Point minPoint = segmentArray[0];
        Point maxPoint = segmentArray[groupSize];
-       lineSegments[segmentCounter] = new LineSegment(minPoint, maxPoint);
+       lineSegments.add( new LineSegment(minPoint, maxPoint) );
        segmentCounter++;
    }
                                        
    public int numberOfSegments() { return segmentCounter; }
    
-   public LineSegment[] segments() { return lineSegments; }
+   public ArrayList<LineSegment> segments() { return lineSegments; }
    
    public static void main(String[] args) {
 
