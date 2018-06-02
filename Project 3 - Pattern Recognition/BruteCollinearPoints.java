@@ -13,39 +13,27 @@ public class BruteCollinearPoints {
    public BruteCollinearPoints(Point[] points) {
   
        if (points == null) throw new IllegalArgumentException("Array of points must be provided.");
-       int n = points.length; 
-       
-       // check for null points prior to sorting
-       for (int i = 0; i < n; i++) {
-           if (points[i] == null) throw new IllegalArgumentException("Array at index " + i + " is null.");
-       }  
-                  
-       // initialise an ArrayList
+       int n = points.length;  
        lineSegments = new ArrayList<LineSegment>();
        
-       // sort the array by y-coordinates (natural order) then check for repeated points
-       Arrays.sort(points, 0, n);
-       for (int i = 0; i < n; i++) {
-           if (i > 0 && points[i] == points[i - 1]) throw new IllegalArgumentException("Array contains repeated points.");
-       } 
-
        // iterate through the array 4 times to find possible combinations (not permutations)
-       for (int i = 0; i < n - 3; i++) {
-           
-           for (int j = i + 1; j < n - 2; j++) {
+       for (int i = 0; i < n; i++) {
+           if (points[i] == null) throw new IllegalArgumentException("Array of points must be provided.");
+           for (int j = i + 1; j < n; j++) {
+               if (points[i].slopeTo(points[j]) == Double.NEGATIVE_INFINITY) throw new IllegalArgumentException("Array contains repeated points.");
                double secondPointSlope = points[i].slopeTo(points[j]);
                
-               for (int k = j + 1; k < n - 1; k++) { 
+               for (int k = j + 1; k < n; k++) { 
                    double thirdPointSlope = points[i].slopeTo(points[k]);
                    if (secondPointSlope != thirdPointSlope) continue; // skip the fourth loop if the current three points are not collinear
                    
-                   for (int l = k + 1; l < n; l++) {
-                       double fourthPointSlope = points[i].slopeTo(points[l]);
+                   for (int m = k + 1; m < n; m++) {
+                       double fourthPointSlope = points[i].slopeTo(points[m]);
                        if (fourthPointSlope == secondPointSlope) {
+                           Point[] segmentArray = { points[i], points[j], points[k], points[m] };
+                           Arrays.sort(segmentArray, 0, 4);
+                           lineSegments.add(new LineSegment(segmentArray[0], segmentArray[3]));
                            segmentCounter++;
-                           Point minPoint = points[i];
-                           Point maxPoint = points[l];
-                           lineSegments.add(new LineSegment(minPoint, maxPoint));
                        }
                    }
                }
@@ -54,8 +42,14 @@ public class BruteCollinearPoints {
    }
     
    public int numberOfSegments() { return segmentCounter; }
-   
-   public ArrayList<LineSegment> segments() { return lineSegments; }
+
+   public LineSegment[] segments() { 
+       LineSegment[] segmentArray = new LineSegment[segmentCounter];
+       for(int i = 0; i < segmentCounter; i++) {
+           segmentArray[i] = lineSegments.get(i);
+       }
+       return segmentArray;
+   }
    
    public static void main(String[] args) {
 

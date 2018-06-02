@@ -43,7 +43,7 @@ public class FastCollinearPoints {
            for(int j = i + 2; j < n; j++) {
                if ( origin.slopeTo(points[j]) == origin.slopeTo(points[j - 1]) ) { 
                    groupSize++;
-                   if (j == n - 1 && groupSize > 2) createLineSegment(points, groupSize, j, origin);
+                   if (j == n - 1 && groupSize > 2) createLineSegment(points, groupSize, j + 1, origin);
                } else if (groupSize > 2) { 
                    createLineSegment(points, groupSize, j, origin);
                    groupSize = 1;   
@@ -75,7 +75,13 @@ public class FastCollinearPoints {
                                        
    public int numberOfSegments() { return segmentCounter; }
    
-   public ArrayList<LineSegment> segments() { return lineSegments; }
+   public LineSegment[] segments() { 
+       LineSegment[] segmentArray = new LineSegment[segmentCounter];
+       for(int i = 0; i < segmentCounter; i++) {
+           segmentArray[i] = lineSegments.get(i);
+       }
+       return segmentArray;
+   }
    
    public static void main(String[] args) {
 
